@@ -22,7 +22,7 @@ A full-stack support desk / ticketing system built with modern web technologies.
 - JWT Authentication
 
 ##  Live Demo
-Frontend: https://your-netlify-link.netlify.app  
+Frontend: https://somtosupport-ticketing-app.netlify.app/
 Backend: https://your-render-link.onrender.com
 
 ##  Run Locally
