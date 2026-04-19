@@ -21,8 +21,8 @@ const getTickets = asyncHandler(async(req, res) =>{
     res.status(200).json(tickets)
 })
 
-const User = require('../models/userModel')
-const Ticket = require('../models/ticketModel')
+
+
 
 // @desc        Get user tickets
 // @route       GET /api/tickets
