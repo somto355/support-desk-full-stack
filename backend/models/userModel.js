@@ -1,30 +1,38 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
-// Define a schema for a "User" document
-const userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: [true, 'Please add a name'],
-    }, 
+      type: String,
+      required: [true, "Please add a name"],
+    },
     email: {
-        type: String,
-        required: [true, 'Please add an email'],
-        unique: true,
-    }, 
+      type: String,
+      required: [true, "Please add an email"],
+      unique: true,
+    },
     password: {
-        type: String,
-        required: [true, 'Please add a password'],
-    }, 
-    isAdmin: {
-        type: Boolean,
-        required: true,
-        default: false
-    }, 
-},
-{
+      type: String,
+      required: [true, "Please add a password"],
+    },
+  },
+  {
     timestamps: true,
-}
-)
+  }
+);
 
-// Create a model based on the schema
-module.exports = mongoose.model('User', userSchema)
+// 🔐 HASH PASSWORD BEFORE SAVE
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// 🔑 MATCH PASSWORD
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+module.exports = mongoose.model("User", userSchema);

@@ -1,11 +1,38 @@
-const express = require('express')
-const router = express.Router()
-const {protect} = require('../middleware/authMiddleware')
-const {registerUser, loginUser, getMe} = require('../controllers/userController')
+const express = require('express');
+const router = express.Router();
 
-router.post('/', registerUser)
-router.post('/login', loginUser)
-router.get('/me', getMe)
+// Controllers
+const {
+  registerUser,
+  loginUser
+} = require('../controllers/userController');
 
-module.exports = router
+// Middleware
+const { protect } = require('../middleware/authMiddleware');
+
+
+// =========================
+// @desc    Register user
+// @route   POST /api/users/register
+// =========================
+router.post('/register', registerUser);
+
+
+// =========================
+// @desc    Login user
+// @route   POST /api/users/login
+// =========================
+router.post('/login', loginUser);
+
+
+// =========================
+// @desc    Get current user
+// @route   GET /api/users/me
+// =========================
+router.get('/me', protect, (req, res) => {
+  res.status(200).json(req.user);
+});
+
+
+module.exports = router;
 

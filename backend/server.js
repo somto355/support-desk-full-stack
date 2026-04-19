@@ -1,30 +1,31 @@
-const express = require('express')
-require('dotenv').config()
-const connectDB = require('./config/db')
-const { errorHandler } = require('./middleware/errorMiddleware')
+require('dotenv').config();
 
-const app = express()
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
 
-// Connect to DB
-connectDB()
+const app = express();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+// Connect Database
+connectDB();
 
-// Test route
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Test Route
 app.get('/', (req, res) => {
-  res.json({ message: 'Backend is working' })
-})
+  res.send('Backend is working 🚀');
+});
 
 // Routes
-app.use('/api/users', require('./routes/userRoutes'))
-app.use('/api/tickets', require('./routes/ticketRoutes'))
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
 
-// Error handler
-app.use(errorHandler)
-
-const PORT = process.env.PORT || 5000
+// START SERVER (always LAST)
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`)
-})
+  console.log(`Server running on port ${PORT}`);
+});
