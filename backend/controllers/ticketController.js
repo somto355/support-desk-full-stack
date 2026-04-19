@@ -7,7 +7,7 @@ const Ticket = require('../models/ticketModel')
 // @route   GET /api/tickets
 // @access  Private
 const getTickets = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id)
+  let user = await User.findById(req.user.id)
 
   if (!user) {
     res.status(401)
