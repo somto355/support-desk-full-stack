@@ -36,7 +36,7 @@ const getNotes = asyncHandler(async(req, res) =>{
 // @access      Private
 const addNote = asyncHandler(async(req, res) =>{
     // Get user using the id in the JWT
-    const user = await User.findById(req.user.id)
+    
 
     if(!user){
         res.status(401)
