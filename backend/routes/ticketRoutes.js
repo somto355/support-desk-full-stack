@@ -1,4 +1,3 @@
-
 const express = require('express')
 const router = express.Router()
 
@@ -7,7 +6,7 @@ const {
   createTicket,
   getTicket,
   deleteTicket,
-  updateTicket
+  updateTicket,
 } = require('../controllers/ticketController')
 
 const { protect } = require('../middleware/authMiddleware')

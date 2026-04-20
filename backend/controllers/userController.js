@@ -2,14 +2,14 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
-// 🔐 Generate Token
+// Generate Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
 
-// ✅ REGISTER
+// Register
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -44,11 +44,11 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// ✅ LOGIN
+// Login
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  
+  const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -63,7 +63,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-// ✅ GET CURRENT USER
+// Get current user
 const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
